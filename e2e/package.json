@@ -7,9 +7,12 @@
     "client:start": "parcel clients/index.html",
     "cypress:open": "cypress open",
     "cypress:headless": "cypress run",
-    "generate-test": "yarn node generate-test.mjs"
+    "generate-test": "yarn node generate-test.mjs",
+    "test": "playwright test",
+    "test:dev": "playwright test --headed"
   },
   "dependencies": {
+    "@playwright/test": "^1.18.0",
     "@uppy/audio": "workspace:^",
     "@uppy/aws-s3": "workspace:^",
     "@uppy/aws-s3-multipart": "workspace:^",
