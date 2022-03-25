@@ -35,6 +35,8 @@ const {
   VITE_TRANSLOADIT_KEY : TRANSLOADIT_KEY,
   VITE_TRANSLOADIT_TEMPLATE : TRANSLOADIT_TEMPLATE,
   VITE_TRANSLOADIT_SERVICE_URL : TRANSLOADIT_SERVICE_URL,
+  VITE_COMPANION_KEYS_PARAMS_KEY: COMPANION_KEYS_PARAMS_KEY,
+  VITE_COMPANION_KEYS_PARAMS_CREDENTIALS_NAME: COMPANION_KEYS_PARAMS_CREDENTIALS_NAME,
 } = import.meta.env
 
 import.meta.env.VITE_TRANSLOADIT_KEY = '***' // to avoid leaking secrets in screenshots.
@@ -47,6 +49,15 @@ const RESTORE = false
 // Rest is implementation! Obviously edit as necessary...
 
 export default () => {
+  const commonProviderOptions = { target: Dashboard, companionUrl: COMPANION_URL }
+
+  if (COMPANION_KEYS_PARAMS_KEY && COMPANION_KEYS_PARAMS_CREDENTIALS_NAME) {
+    commonProviderOptions.companionKeysParams = {
+      key: COMPANION_KEYS_PARAMS_KEY, // needs to be passed here because the provider plugins are not aware of transloadit
+      credentialsName: COMPANION_KEYS_PARAMS_CREDENTIALS_NAME,
+    }
+  }
+
   const uppyDashboard = new Uppy({
     logger: Uppy.debugLogger,
     meta: {
@@ -68,15 +79,15 @@ export default () => {
       proudlyDisplayPoweredByUppy: true,
       note: '2 files, images and video only',
     })
-    .use(GoogleDrive, { target: Dashboard, companionUrl: COMPANION_URL })
-    .use(Instagram, { target: Dashboard, companionUrl: COMPANION_URL })
-    .use(Dropbox, { target: Dashboard, companionUrl: COMPANION_URL })
-    .use(Box, { target: Dashboard, companionUrl: COMPANION_URL })
-    .use(Facebook, { target: Dashboard, companionUrl: COMPANION_URL })
-    .use(OneDrive, { target: Dashboard, companionUrl: COMPANION_URL })
-    .use(Zoom, { target: Dashboard, companionUrl: COMPANION_URL })
-    .use(Url, { target: Dashboard, companionUrl: COMPANION_URL })
-    .use(Unsplash, { target: Dashboard, companionUrl: COMPANION_URL })
+    .use(GoogleDrive, commonProviderOptions)
+    .use(Instagram, commonProviderOptions)
+    .use(Dropbox, commonProviderOptions)
+    .use(Box, commonProviderOptions)
+    .use(Facebook, commonProviderOptions)
+    .use(OneDrive, commonProviderOptions)
+    .use(Zoom, commonProviderOptions)
+    .use(Url, commonProviderOptions)
+    .use(Unsplash, commonProviderOptions)
     .use(Webcam, {
       target: Dashboard,
       showVideoSourceDropdown: true,
