@@ -1,4 +1,4 @@
-/* global jest:false, test:false, expect:false, describe:false */
+import { vi } from 'vitest'
 
 const mockOauthState = require('../mockoauthstate')()
 
@@ -6,8 +6,8 @@ const request = require('supertest')
 const tokenService = require('../../src/server/helpers/jwt')
 const { getServer } = require('../mockserver')
 
-jest.mock('../../src/server/helpers/oauth-state', () => ({
-  ...jest.requireActual('../../src/server/helpers/oauth-state'),
+vi.mock('../../src/server/helpers/oauth-state', () => ({
+  ...vi.requireActual('../../src/server/helpers/oauth-state'),
   ...mockOauthState,
 }))
 

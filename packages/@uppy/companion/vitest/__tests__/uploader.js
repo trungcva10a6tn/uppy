@@ -1,6 +1,8 @@
 'use strict'
 
-jest.mock('tus-js-client')
+import { vi } from 'vitest'
+
+vi.mock('tus-js-client')
 
 const intoStream = require('into-stream')
 const fs = require('node:fs')

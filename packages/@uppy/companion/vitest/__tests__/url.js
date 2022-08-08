@@ -1,12 +1,14 @@
 /* global jest:false, test:false, expect:false, describe:false */
 
+import { vi } from 'vitest'
+
 const nock = require('nock')
 const request = require('supertest')
 
-jest.mock('tus-js-client')
-jest.mock('../../src/server/helpers/request', () => {
+vi.mock('tus-js-client')
+vi.mock('../../src/server/helpers/request', () => {
   return {
-    ...jest.requireActual('../../src/server/helpers/request'),
+    ...vi.requireActual('../../src/server/helpers/request'),
     getURLMeta: () => {
       return Promise.resolve({ size: 7580, type: 'image/jpg' })
     },

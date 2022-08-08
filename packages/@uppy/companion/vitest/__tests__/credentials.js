@@ -1,9 +1,9 @@
-/* global jest:false, test:false, expect:false, describe:false */
+import { vi } from 'vitest'
 
 const { remoteZoomKey: mockRemoteZoomKey, remoteZoomSecret: mockRemoteZoomSecret, remoteZoomVerificationToken: mockRemoteZoomVerificationToken } = require('../fixtures/zoom').expects
 
 // mocking request module used to fetch custom oauth credentials
-jest.mock('request', () => {
+vi.mock('request', () => {
   return {
     post: (url, options, done) => {
       if (url === 'http://localhost:2111/zoom-keys') {

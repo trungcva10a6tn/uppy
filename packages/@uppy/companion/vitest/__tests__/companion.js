@@ -1,12 +1,14 @@
 /* global jest:false, test:false, expect:false, describe:false */
 
+import { vi } from 'vitest'
+
 const mockOauthState = require('../mockoauthstate')()
 const { version } = require('../../package.json')
 
-jest.mock('tus-js-client')
-jest.mock('purest')
-jest.mock('../../src/server/helpers/oauth-state', () => ({
-  ...jest.requireActual('../../src/server/helpers/oauth-state'),
+vi.mock('tus-js-client')
+vi.mock('purest')
+vi.mock('../../src/server/helpers/oauth-state', () => ({
+  ...vi.requireActual('../../src/server/helpers/oauth-state'),
   ...mockOauthState,
 }))
 
