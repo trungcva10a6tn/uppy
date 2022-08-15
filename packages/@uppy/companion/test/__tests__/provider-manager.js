@@ -1,5 +1,5 @@
-/* global jest:false, test:false, expect:false, describe:false, beforeEach:false */
-
+const { beforeEach, describe, it:test } = require('test')
+const expect = require('expect').default
 const providerManager = require('../../src/server/provider')
 const { getCompanionOptions } = require('../../src/standalone/helper')
 const { setDefaultEnv } = require('../mockserver')
@@ -148,7 +148,7 @@ describe('Test Custom Provider options', () => {
           key: 'foo_key',
           secret: 'foo_secret',
         },
-        module: jest.mock(),
+        module: {},
       },
     }, providers, grantConfig)
 

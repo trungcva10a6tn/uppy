@@ -1,5 +1,4 @@
-/* global test:false, describe:false */
-
+const { test, describe } = require('test')
 const request = require('supertest')
 const { getServer } = require('../mockserver')
 

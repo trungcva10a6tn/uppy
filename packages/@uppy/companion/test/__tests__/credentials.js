@@ -1,7 +1,27 @@
-/* global jest:false, test:false, expect:false, describe:false */
+const { test, describe } = require('test')
+const expect = require('expect').default
 
+function mock (package, replacer) {
+  const actualPath = require.resolve(package)
+  if (arguments.length === 1) {
+    // eslint-disable-next-line import/no-dynamic-require,global-require
+    require.cache[actualPath] = require(`../__mocks__/${package}`)
+  } else {
+    // eslint-disable-next-line import/no-dynamic-require,global-require
+    const actual = require(package)
+    const Module = require('node:module') // eslint-disable-line global-require
+    require.cache[actualPath] = new Module(actualPath, module)
+    Object.defineProperties(require.cache[actualPath], {
+      exports: {
+        __proto__: null,
+        value: replacer(actual),
+      },
+      resetFn: { __proto__: null, value: replacer.bind(null, actual) },
+    })
+  }
+}
 // mocking request module used to fetch custom oauth credentials
-jest.mock('request', () => {
+mock('request', () => {
   const { remoteZoomKey, remoteZoomSecret, remoteZoomVerificationToken } = require('../fixtures/zoom').expects
 
   return {

@@ -1,4 +1,5 @@
-/* global test:false, expect:false, describe:false, beforeAll:false, */
+const { it: test, describe, before: beforeAll } = require('test')
+const expect = require('expect').default
 const chalk = require('chalk')
 const logger = require('../../src/server/logger')
 

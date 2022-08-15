@@ -325,6 +325,9 @@ module.exports = {
     },
     {
       files: ['./packages/@uppy/companion/**/*.js'],
+      env: {
+        jest: false,
+      },
       rules: {
         'no-underscore-dangle': 'off',
 

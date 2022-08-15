@@ -1,3 +1,4 @@
+const path = require('node:path')
 const express = require('express')
 const session = require('express-session')
 
@@ -13,7 +14,7 @@ const defaultEnv = {
   COMPANION_ALLOW_LOCAL_URLS : 'false',
 
   COMPANION_PROTOCOL: 'http',
-  COMPANION_DATADIR: './test/output',
+  COMPANION_DATADIR: path.join(__dirname, 'output'),
   COMPANION_SECRET: 'secret',
 
   COMPANION_DROPBOX_KEY: 'dropbox_key',
@@ -58,7 +59,22 @@ module.exports.getServer = (extraEnv) => {
   // companion stores certain global state like emitter, metrics, logger (frozen object), so we need to reset modules
   // todo rewrite companion to not use global state
   // https://github.com/transloadit/uppy/issues/3284
-  jest.resetModules()
+  Object.keys(require.cache).forEach(key => {
+    if (Object.prototype.hasOwnProperty.call(require.cache[key], 'resetFn')) {
+      const Module = require('node:module') // eslint-disable-line global-require
+      const { resetFn } = require.cache[key]
+      require.cache[key] = new Module(key, require.cache[key].parent)
+      Object.defineProperties(require.cache[key], {
+        exports: {
+          __proto__:null,
+          value: resetFn(),
+        },
+        resetFn: { __proto__: null, value: resetFn },
+      })
+    } else {
+      delete require.cache[key]
+    }
+  })
   const standalone = require('../src/standalone')
   const authServer = express()
 

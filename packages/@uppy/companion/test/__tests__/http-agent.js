@@ -1,5 +1,5 @@
-/* global test:false, expect:false, describe:false, */
-
+const { test, describe } = require('test')
+const expect = require('expect').default
 const request = require('request')
 const http = require('node:http')
 const https = require('node:https')
@@ -20,49 +20,43 @@ describe('test getRedirectEvaluator', () => {
     },
   }
 
-  test('when original URL has "https:" as protocol', (done) => {
+  test('when original URL has "https:" as protocol', () => {
     const shouldRedirectHttps = getRedirectEvaluator(httpsURL, true)
     expect(shouldRedirectHttps(httpsRedirectResp)).toEqual(true)
     expect(shouldRedirectHttps(httpRedirectResp)).toEqual(false)
-    done()
   })
 
-  test('when original URL has "http:" as protocol', (done) => {
+  test('when original URL has "http:" as protocol', () => {
     const shouldRedirectHttp = getRedirectEvaluator(httpURL, true)
     expect(shouldRedirectHttp(httpRedirectResp)).toEqual(true)
     expect(shouldRedirectHttp(httpsRedirectResp)).toEqual(false)
-    done()
   })
 })
 
 describe('test getProtectedHttpAgent', () => {
-  test('setting "https:" as protocol', (done) => {
+  test('setting "https:" as protocol', () => {
     const Agent = getProtectedHttpAgent('https:')
     expect(Agent).toEqual(https.Agent)
-    done()
   })
 
-  test('setting "https" as protocol', (done) => {
+  test('setting "https" as protocol', () => {
     const Agent = getProtectedHttpAgent('https')
     expect(Agent).toEqual(https.Agent)
-    done()
   })
 
-  test('setting "http:" as protocol', (done) => {
+  test('setting "http:" as protocol', () => {
     const Agent = getProtectedHttpAgent('http:')
     expect(Agent).toEqual(http.Agent)
-    done()
   })
 
-  test('setting "http" as protocol', (done) => {
+  test('setting "http" as protocol', () => {
     const Agent = getProtectedHttpAgent('http')
     expect(Agent).toEqual(http.Agent)
-    done()
   })
 })
 
 describe('test protected request Agent', () => {
-  test('allows URLs without IP addresses', (done) => {
+  test('allows URLs without IP addresses', (context, done) => {
     const options = {
       uri: 'https://transloadit.com',
       method: 'GET',
@@ -80,7 +74,7 @@ describe('test protected request Agent', () => {
     })
   })
 
-  test('blocks private http IP address', (done) => {
+  test('blocks private http IP address', (context, done) => {
     const options = {
       uri: 'http://172.20.10.4:8090',
       method: 'GET',
@@ -94,7 +88,7 @@ describe('test protected request Agent', () => {
     })
   })
 
-  test('blocks private https IP address', (done) => {
+  test('blocks private https IP address', (context, done) => {
     const options = {
       uri: 'https://172.20.10.4:8090',
       method: 'GET',
@@ -108,7 +102,7 @@ describe('test protected request Agent', () => {
     })
   })
 
-  test('blocks localhost IP address', (done) => {
+  test('blocks localhost IP address', (context, done) => {
     const options = {
       uri: 'http://127.0.0.1:8090',
       method: 'GET',

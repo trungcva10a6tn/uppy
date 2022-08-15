@@ -1,13 +1,13 @@
-/* global jest:false, test:false, describe:false, expect:false */
-
+const { test, describe } = require('test')
+const expect = require('expect').default
 const { cors } = require('../../src/server/middlewares')
 
 function testWithMock ({ corsOptions, get = () => {}, origin = 'https://localhost:1234' } = {}) {
   const res = {
     get,
     getHeader: get,
-    setHeader: jest.fn(),
-    end: jest.fn(),
+    setHeader: Function.prototype,
+    end: Function.prototype,
   }
   const req = {
     method: 'OPTIONS',
@@ -15,7 +15,7 @@ function testWithMock ({ corsOptions, get = () => {}, origin = 'https://localhos
       origin,
     },
   }
-  const next = jest.fn()
+  const next = Function.prototype
   cors(corsOptions)(req, res, next)
   return { res }
 }
