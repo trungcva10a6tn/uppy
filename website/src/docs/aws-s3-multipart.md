@@ -45,7 +45,6 @@ The maximum amount of chunks to upload simultaneously. You should set the limit 
 
 Because HTTP/1.1 limits the number of concurrent requests to one origin to 6, it’s recommended to always set a limit of 6 or smaller for all your uploads, or to not override the default.
 
-
 ### `retryDelays: [0, 1000, 3000, 5000]`
 
 `retryDelays` are the intervals in milliseconds used to retry a failed chunk.
@@ -156,6 +155,15 @@ An example of what the return value should look like:
   "headers": { "Content-MD5": "foo" }
 }
 ```
+
+### `shouldUseMultipart(file, fileSize)`
+
+A function that returns a boolean, or a boolean value. If a function is provided, the following arguments will be provided:
+
+* `file` - the `UppyFile` object.
+* `fileSize` – the number of bytes to upload.
+
+By default, all files with a size ≤ 100 MiB will be uploaded in a single chunk, all files larger than that as multipart.
 
 ### `abortMultipartUpload(file, { uploadId, key })`
 
