@@ -163,7 +163,7 @@ A function that returns a boolean, or a boolean value. If a function is provided
 * `file` - the `UppyFile` object.
 * `fileSize` – the number of bytes to upload.
 
-By default, all files with a size ≤ 100 MiB will be uploaded in a single chunk, all files larger than that as multipart.
+By default, all files are uploaded as multipart. In a future version, all files with a size ≤ 100 MiB will be uploaded in a single chunk, all files larger than that as multipart.
 
 ### `abortMultipartUpload(file, { uploadId, key })`
 
